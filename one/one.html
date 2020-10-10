@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<title> Web Page </title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angularanimate.js"></script>
+<head>
+    <style type="text/css">
+        body {
+            color: honeydew;
+        }
+
+        li {
+            width: 500px;
+            background-color: grey;
+            list-style: none;
+        }
+
+        button {
+            background-color: red;
+            border: none;
+        }
+
+        li.ng-hide {
+            animation: 1s myChange;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        var app = angular.module("ngAnimate", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.books = [];
+            $scope.addItem = function () {
+                $scope.errortext = "";
+                if (!$scope.addMe) {
+                    return;
+                } 
+                if ($scope.books.indexOf($scope.addMe) == -1) {
+                    $scope.books.push($scope.addMe); $scope.addMe = "";
+                }
+                else {
+                    $scope.errortext = "The item is already in your books list.";
+                    $scope.addMe = "";
+                }
+            }
+            $scope.removeItem = function (x) { $scope.errortext = ""; $scope.books.splice(x, 1); 
+        }
+    }); 
+    </script>
+    <div ng-app="ngAnimate" ng-controller="myCtrl" style="top: 100px;left: 100px;">
+        <ul>
+            <h1 style="color: indigo;">Books</h1>
+            <li ng-repeat="x in books"> {{x}}<span ng-click="removeItem($index)" style="font-size: 20px;" ng-hide="addMe">
+                <button>----X</button></span>
+            </li>
+        </ul> 
+        <input ng-model="addMe"> 
+        <button ng-click="addItem()">Add</button>
+        <p style="color: red; font-size:30px;">
+            {{errortext}}
+        </p> 
+    </div>
+</body> 
+</html>
