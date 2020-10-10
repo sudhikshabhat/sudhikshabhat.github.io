@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <title> Web Page </title>
+    <style>
+        #words {
+            border: 1px solid black;
+            background-color: blue;
+            padding: 3px;
+            margin: 3px;
+        }
+    </style>
+    <script>
+        function str_reverse() {
+            var str = document.getElementById("text").value;
+            var arrays = str.split(' ');
+            arrays = arrays.reverse();
+            if (document.getElementById("filter").value == "") {
+                var ans = document.getElementById("final");
+                ans = null;
+                var sum = 0;
+                for (var i = 0; i < arrays.length; i++) {
+                    if (i % 2 != 0) {
+                        ans.innerHTML += "<span id=words>" + arrays[i] + "</span>"
+                    }
+                    else {
+                        ans.innerHTML += "<span id=words style='text-decoration: underline;'>" + arrays[i] + " </span>";
+                        sum++;
+                    }
+                    document.getElementById("count").innerHTML = "These many words are filtered out:" + sum;
+                }
+            }
+            else if (document.getElementById("filter").value) {
+                arrays = regular_exp(arrays);
+                var j = 0;
+                var ans = document.getElementById("final");
+                ans.innerHTML = null;
+                var sum = 0;
+                while (j < arrays.length) {
+                    if (arrays[j] != undefined) {
+                        ans.innerHTML += "<span id=words>" + arrays[j] + " </span>";
+                    } else
+                        sum++;
+                    j++;
+                }
+                document.getElementById("count").innerHTML = "These many words are filtered out:" + sum;
+            }
+        }
+        function regular_exp(arrays) {
+            var F = document.getElementById("filter").value;
+            var filter = new RegExp(F);
+            for (var i = 0; i < arrays.length; i++) {
+                if (filter.test(arrays[i]))
+                    delete arrays[i];
+            }
+            return arrays;
+        }
+    </script>
+</head>
+<body>
+    <h1> Manipulate Text </h1>
+    <label> Enter the text </label>
+    <input id="text" />
+    <br>
+    <br>
+    <label> Filter </label>
+    <input id="filter" />
+    <br>
+    <br>
+    <button onclick="str_reverse()"> Click Me </button>
+    <br>
+    <p id="final"></p>
+    <p id="count"></p>
+</body>
+</html>
